@@ -11,27 +11,26 @@ set EXE_DIR=%PROJECT_DIR%/bin
 :: Flags
 set GFLAGS=-fdiagnostics-color=always -Wall -Wextra -g
 
-:: Directories
+:: Dirs
 set SOURCE_DIRS=%SRC_DIR%/*.cpp %LIB_DIR%/imgui/*.cpp
-set INCLUDE_DIRS=-I%LIB_DIR%/imgui -I%INCLUDE_DIR%
-set LIB_DIRS=-L%LIB_DIR%
+set INCLUDE_DIRS=-I%INCLUDE_DIR% -I%LIB_DIR%/imgui -I%LIB_DIR%/sdl2/include
+set LIB_DIRS=-L%LIB_DIR% -L%LIB_DIR%/sdl2/lib
 
 :: Libs
-set LDLIBS=-lglfw3 -lgdi32 -lopengl32
+set LDLIBS=-lgdi32 -lopengl32 -lmingw32 -lSDL2main -lSDL2 -mwindows
 echo Compilando...
 g++ %GFLAGS% %SOURCE_DIRS% %INCLUDE_DIRS% %LIB_DIRS% %LDLIBS% -o %EXE_DIR%/%PROJECT_NAME%.exe
 
 if errorLevel 1 (
-    echo Compilación fallida
-    pause
+    echo Compilacion fallida
     exit /b 1
 )
 
 if errorLevel 0 (
-    echo Compilación exitosa
+    echo Compilacion exitosa
     echo Corriendo ejecutable...
     cd %EXE_DIR%
-    %PROJECT_NAME%.exe
+    %PROJECT_NAME%.exe -help
     cd ..
 )
 
