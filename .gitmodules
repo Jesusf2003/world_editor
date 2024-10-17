@@ -1,0 +1,9 @@
+[submodule "resources/def2fgd"]
+path = resources/def2fgd
+url = https://github.com/FreeSlave/def2fgd.git
+branch = master
+
+[submodule "resources/copper-qc2fgd"]
+path = resources/copper-qc2fgd
+url = https://github.com/itslunaranyo/copper.git
+branch = master

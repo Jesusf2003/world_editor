@@ -1,0 +1,103 @@
+.TH DEF2FGD 1
+.SH NAME
+def2fgd \- convert .def and .ent to .fgd
+.SH SYNOPSIS
+.B def2fgd
+.I [options]
+.I [input-file]
+.I [output-file]
+.SH DESCRIPTION
+.B def2fgd
+converts .def and .ent files used by 
+\fBGtkRadiant\fP and \fBNetRadiant\fP to .fgd
+files used by \fBJ.A.C.K.\fP level editor.
+.SH OPTIONS
+.TP
+\fB\-format format\fP
+Specify format of input. Valid values are def and ent.
+By default format is detected from input file extension.
+
+.TP
+\fB\-offset-glob pattern\fP
+Add an extra pattern for matching entity names that needs offset.
+To add several patterns use this option multiple times.
+.br
+Offset will be used in level editor when creating point entities in 3D view.
+.br
+Default patterns are weapon_*, item_*, ammo_*, info_player_deathmatch and info_player_start.
+
+.TP
+\fB-noauto-offset-glob\fP
+Discard default patterns when setting offset, use only explicitly added ones.
+
+.TP
+\fB-bobparms "x y z"\fP
+Set bob parameters for all bobbing entitites. Note that all three parameters should be passed as single argument, i.e. in pair quotes.
+.br
+If you don't know what bob parameters mean, but still want specific models (like weapons and items) to float and rotate, use just -bob.
+
+.TP
+\fB\-bob\fP
+Same as -bobparms "180 8 0".
+This is good default since it makes item models to float and rotate in 3D view of level editor the same way as they do in Quake III Arena and similar games.
+
+.TP
+\fB\-bob-glob pattern\fP
+Add an extra pattern for matching entity names that needs bobbing parameters.
+To add several patterns use this option multiple times.
+.br
+Default patterns are weapon_*, item_* and ammo_*.
+
+.TP
+\fB-noauto-bob-glob\fP
+Discard default patterns when setting bob parameters, use only explicitly added ones.
+
+.TP
+\fB\-help\fP
+Show help message and exit.
+
+.TP
+\fB\-version\fP
+Show version information and exit.
+
+.TP
+\fB\-\-\ [arguments...]\fP
+Treat the rest of arguments as positional arguments (i.e. not options).
+
+When input-file is omitted or -, standard input is used.
+
+When output-file is omitted or -, standard output is used.
+
+.SH EXAMPLES
+
+.TP
+def2fgd entities.def entities.fgd
+Parse entitites.def and write result to entities.fgd.
+
+.TP
+def2fgd -format def - entities.fgd < entities.def
+Parse from standard input and write result to entities.fgd.
+When reading from standard input the format must be given explicitly.
+
+.TP
+def2fgd entities.def > entities.fgd
+Parse entities.def and write result to standard output.
+
+.TP
+def2fgd -bob entities.def entities.fgd
+Add default bobbing parameters for weapons, items and ammo entities.
+
+.TP
+def2fgd -bobparms "100 0 0" entities.def entities.fgd
+Set bobbing parameters for weapons, items and ammo entities.
+
+.TP
+def2fgd -noauto-offset-glob -offset-glob item_* -offset-glob weapon_* entities.def entities.fgd
+Add offset only to entities which names are started with item_ or weapon_.
+
+.TP
+def2fgd -bob -bob-glob key_* -offset-glob key_* entities.def entities.fgd
+Add offset and bobbing parameters to entities which names are started with key_ as well as names matching default patterns.
+
+.SH AUTHOR
+Roman Chistokhodov https://bitbucket.org/FreeSlave/
